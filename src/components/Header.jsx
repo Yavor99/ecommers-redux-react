@@ -8,11 +8,15 @@ import { NavLink } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {add, removeOne, remove} from '../action/action';
 
 
 const Header = () => {
+    const dispatch = useDispatch();
+
     const { cart } = useSelector(state => state.updateCart);
 
 
@@ -54,7 +58,7 @@ const Header = () => {
                     horizontal: 'left',
                 }}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem >
                     {
                         cart.length === 0 ?
                             (
@@ -64,7 +68,7 @@ const Header = () => {
                             )
                             :
                             (
-                                <div style={{ width: "30rem" }}>
+                                <div style={{ width: "40rem" }}>
                                     <div>
                                         <Table striped bordered hover>
                                             <thead>
@@ -93,10 +97,13 @@ const Header = () => {
                                                                     <p>Rating: {product.rating.rate}</p>
                                                                     <p>Num of product</p>
                                                                     <div className='d-flex justify-content-between w-50'>
-                                                                        <p>-</p>
+                                                                        <p onClick={product.rating.count===1?() => dispatch(remove(product)):() => dispatch(removeOne(product))}>-</p>
                                                                         <p>x{product.rating.count}</p>
-                                                                        <p>+</p>
+                                                                        <p onClick={() => dispatch(add(product))}>+</p>
                                                                     </div>
+                                                                </td>
+                                                                <td>
+                                                                    <DeleteIcon onClick={() => dispatch(remove(product))} style={{fontSize: "2rem" ,cursor: "pointer", color: "red"}}/>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
