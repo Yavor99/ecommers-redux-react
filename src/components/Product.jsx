@@ -11,6 +11,7 @@ const Product = () => {
     const cart = useSelector(state => state.updateCart);
     const dispach = useDispatch();
     console.log(cart);
+    
     const [data, setData] = useState([]);
 
     const getData = async () => {
