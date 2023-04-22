@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,8 +16,23 @@ import {add, removeOne, remove} from '../action/action';
 
 const Header = () => {
     const dispatch = useDispatch();
+    const [total, setTotal] = useState(0);
 
     const { cart } = useSelector(state => state.updateCart);
+
+    const getTotal = () => {
+        let price = 0;
+
+        cart.map(product => 
+            price += product.price * product.rating.count 
+            )
+
+            setTotal(price)
+    }
+
+    useEffect(() => {
+        getTotal()
+    })
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -112,7 +127,7 @@ const Header = () => {
                                             }
                                             <tfoot>
                                                 <tr>
-                                                    <div className='text-center'>Total Price</div>
+                                                    <div className='text-center'>Total Price: ${total.toFixed(2)}</div>
                                                 </tr>
                                             </tfoot>
                                         </Table>
